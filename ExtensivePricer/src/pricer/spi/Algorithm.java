@@ -1,11 +1,12 @@
 package pricer.spi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public interface Algorithm {
+public interface Algorithm extends Serializable {
 	
 	// public String algorithmName="";
 	TreeMap<String, Double> parameter = new TreeMap<String, Double>();

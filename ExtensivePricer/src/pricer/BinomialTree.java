@@ -7,6 +7,10 @@ import pricer.spi.Algorithm;
 
 
 public class BinomialTree implements Algorithm {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String algorithmName;
 	private ArrayList<String> productName=new ArrayList<String>();
 	TreeMap<String, Double> parameter = new TreeMap<String, Double>();

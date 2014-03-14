@@ -8,6 +8,10 @@ import java.util.TreeMap;
 import pricer.spi.Algorithm;
 
 public class AsianSimulation implements Algorithm {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String algorithmName;
 	private ArrayList<String> productName=new ArrayList<String>();
 	TreeMap<String, Double> parameter = new TreeMap<String, Double>();

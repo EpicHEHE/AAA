@@ -133,7 +133,7 @@ public class Pricer extends JFrame {
 				System.out.println("add product: "+status);
 			}
 		});
-
+		panelExtension.add(panel);
 		JLabel labelType = new JLabel("Type");
 		labelType.setBounds(30, 20, 100, 20);
 		panelCalculator.add(labelType);
@@ -247,15 +247,14 @@ public class Pricer extends JFrame {
 
 		String productName = choiceProduct.getSelectedItem();
 		String algorithmName = choiceAlgorithm.getSelectedItem();
-		for (String parameterName : textFieldMap.keySet()) {
-			parameterInputMap.put(parameterName, Double
-					.parseDouble(textFieldMap.get(parameterName).getText()));
+		
+		if(validateInput()){
+			Algorithm algorithm = ProductAlgorithmManager.getInstance()
+					.getAlgorithmSelected(productName, algorithmName);
+			algorithm.setParameter(parameterInputMap);
+			priceArray = algorithm.calculate();
 		}
-
-		Algorithm algorithm = ProductAlgorithmManager.getInstance()
-				.getAlgorithmSelected(productName, algorithmName);
-		algorithm.setParameter(parameterInputMap);
-		priceArray = algorithm.calculate();
+		
 
 		return priceArray;
 	}
@@ -298,5 +297,20 @@ public class Pricer extends JFrame {
 
 	public float[][] volatilityCalculate() {
 		return null;
+	}
+	
+	public boolean validateInput(){
+		boolean status=true;
+		for (String parameterName : textFieldMap.keySet()) {
+			try{
+				parameterInputMap.put(parameterName, Double
+						.parseDouble(textFieldMap.get(parameterName).getText()));
+			}catch(Exception e){
+				System.out.println("illegal input: "+e.getMessage());
+				status = false;
+			}
+		
+		}
+		return status;
 	}
 }
