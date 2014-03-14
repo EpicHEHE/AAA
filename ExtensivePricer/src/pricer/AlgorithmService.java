@@ -35,6 +35,7 @@ public class AlgorithmService {
 		URL[] urls = new URL[1];
 		try {
 			urls[0]=file.toURI().toURL();
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

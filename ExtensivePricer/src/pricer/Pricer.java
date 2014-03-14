@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import javax.swing.JList;
 
 public class Pricer extends JFrame {
 
@@ -42,9 +44,12 @@ public class Pricer extends JFrame {
 	TreeMap<String, JTextField> textFieldMap = new TreeMap<String, JTextField>();
 	TreeMap<String, Double> parameterInputMap = new TreeMap<String, Double>();
 	ArrayList<String> parameterList = new ArrayList<String>();
+	private final JButton addProductButton = new JButton("add Product");
+	private final JTextField productNameField = new JTextField();
+
+	private final JPanel panel = new JPanel();
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		System.out.println(System.getProperty("java.class.path"));
 		EventQueue.invokeLater(new Runnable() {
@@ -60,6 +65,8 @@ public class Pricer extends JFrame {
 	}
 
 	private Pricer() {
+		panel.add(productNameField);
+		productNameField.setColumns(10);
 		displayGUI();
 	}
 
@@ -86,33 +93,46 @@ public class Pricer extends JFrame {
 		panelCalculator.setLayout(null);
 
 		tabbedPane.addTab("Extension", null, panelExtension, null);
-
-		JButton addJARButton = new JButton("add JAR");
-		addJARButton.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		addJARButton.addActionListener(new ActionListener() {
+		panelExtension.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		
+		
+		//panelExtension.add(panel);
+		panel.add(addProductButton);
+		
+				JButton addJARButton = new JButton("add JAR");
+				panel.add(addJARButton);
+				addJARButton.setHorizontalAlignment(SwingConstants.RIGHT);
+				
+						addJARButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								JFileChooser chooser = new JFileChooser();
+								FileNameExtensionFilter filter = new FileNameExtensionFilter(
+										"jar", "jar");
+								chooser.setFileFilter(filter);
+								int returnVal = chooser.showOpenDialog(Pricer.this);
+								if (returnVal == JFileChooser.APPROVE_OPTION) {
+									System.out.println("You chose to open this file: "
+											+ chooser.getSelectedFile().getName());
+									ArrayList<Algorithm> algorithmList = AlgorithmService
+											.getInstance().loadAlgorithms(
+													chooser.getSelectedFile());
+									boolean status = ProductAlgorithmManager.getInstance()
+											.addAlgorithmtoMap(algorithmList);
+									if (status) {
+										ProductListRefresh();
+									}
+				
+								}
+							}
+						});
+		addProductButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						"jar", "jar");
-				chooser.setFileFilter(filter);
-				int returnVal = chooser.showOpenDialog(Pricer.this);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					System.out.println("You chose to open this file: "
-							+ chooser.getSelectedFile().getName());
-					ArrayList<Algorithm> algorithmList = AlgorithmService
-							.getInstance().loadAlgorithms(
-									chooser.getSelectedFile());
-					boolean status = ProductAlgorithmManager.getInstance()
-							.addAlgorithmtoMap(algorithmList);
-					if (status) {
-						ProductListRefresh();
-					}
-
-				}
+				String productName = productNameField.getText();
+				boolean status = ProductAlgorithmManager.getInstance().addProducttoMap(productName);
+				System.out.println("add product: "+status);
 			}
 		});
-		panelExtension.add(addJARButton);
 
 		JLabel labelType = new JLabel("Type");
 		labelType.setBounds(30, 20, 100, 20);
@@ -159,7 +179,7 @@ public class Pricer extends JFrame {
 							choiceProduct.getSelectedItem(),
 							choiceAlgorithm.getSelectedItem());
 				}
-				System.out.println("Num of Parameter "+parameterList.size());
+				System.out.println("Num of Parameter " + parameterList.size());
 				for (int j = 0; j < parameterList.size(); j++) {
 					JLabel label = new JLabel(parameterList.get(j));
 					label.setBounds(30, 80 + 30 * j, 100, 20);
@@ -173,17 +193,18 @@ public class Pricer extends JFrame {
 					textFieldMap.put(parameterList.get(j), textFieldName);
 
 				}
-				calculateButton.setBounds(150, 80 + 30 * parameterList.size(), 100, 25);
-				 panelCalculator.validate();
-				 panelCalculator.repaint();
+				calculateButton.setBounds(150, 80 + 30 * parameterList.size(),
+						100, 25);
+				panelCalculator.validate();
+				panelCalculator.repaint();
 
 			}
 		});
 
-		//JButton calculateButton = new JButton();
+		// JButton calculateButton = new JButton();
 		calculateButton.setBounds(150, 80 + 30 * parameterList.size(), 100, 25);
 		panelCalculator.add(calculateButton);
-		
+
 		// the label to show the price for put and call option price
 		JLabel put = new JLabel("Put");
 		JLabel call = new JLabel("Call");
@@ -199,13 +220,11 @@ public class Pricer extends JFrame {
 
 		calculateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				
-				
-				
-				 double[] priceArray = new double[2];
-				 priceArray = calculatePrice();
-				 labelPut.setText(String.valueOf(priceArray[0]));
-				 labelCall.setText(String.valueOf(priceArray[1]));
+
+				double[] priceArray = new double[2];
+				priceArray = calculatePrice();
+				labelPut.setText(String.valueOf(priceArray[0]));
+				labelCall.setText(String.valueOf(priceArray[1]));
 			}
 		});
 
@@ -213,8 +232,8 @@ public class Pricer extends JFrame {
 		volatilityButton
 				.setBounds(400, 80 + 30 * parameterList.size(), 200, 25);
 		panelCalculator.add(volatilityButton);
-		volatilityButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae1){
+		volatilityButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae1) {
 				volatilityCalculate();
 			}
 		});
@@ -264,9 +283,6 @@ public class Pricer extends JFrame {
 
 		parameterList = ProductAlgorithmManager.getInstance().getParameterList(
 				productName, algorithmName);
-		// Collections.addAll(parameterList,
-		// "sNaught Price","Strike Price","Interest Rate", "Term",
-		// "Volatility");
 
 		return parameterList;
 	}
@@ -279,7 +295,8 @@ public class Pricer extends JFrame {
 
 		}
 	}
-	public float[][] volatilityCalculate(){
+
+	public float[][] volatilityCalculate() {
 		return null;
 	}
 }

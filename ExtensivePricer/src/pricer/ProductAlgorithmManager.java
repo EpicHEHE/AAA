@@ -63,9 +63,12 @@ public class ProductAlgorithmManager {
 		return parameterList;
 	}
 
-	public void addProducttoMap(String productName) {
-		productMap.put(productName, new TreeMap<String, Algorithm>());
-		//notifyProductChange();
+	public boolean addProducttoMap(String productName) {
+		if (!productMap.containsKey(productName)) {
+			productMap.put(productName, new TreeMap<String, Algorithm>());
+			return true;
+		}
+		return false;
 	}
 
 	public boolean addAlgorithmtoMap(ArrayList<Algorithm> newAlgorithms) {
@@ -75,15 +78,11 @@ public class ProductAlgorithmManager {
 			ArrayList<String> productName = newAlgorithms.get(i)
 					.getProductName();
 			for (int k = 0; k < productName.size(); k++) {
-				if (!productMap.containsKey(productName.get(k))) {
-					addProducttoMap(productName.get(k));
-					status = true;
-				}
+					status = addProducttoMap(productName.get(k));
 				productMap.get(productName.get(k)).put(newAlgorithms.get(i).getAlgorithmName(),newAlgorithms.get(i));
 				status = true;
 			}
 		}
-		//notifyAlgorithmChange();
 		return status;
 	}
 
@@ -104,10 +103,6 @@ public class ProductAlgorithmManager {
 	}
 
 	public void notifyAlgorithmChange() {
-		// Pricer.getInstance().AlgorithmList();
-	}
-
-	public void notifyProductChange() {
-		Pricer.getInstance().ProductListRefresh();
+		
 	}
 }
