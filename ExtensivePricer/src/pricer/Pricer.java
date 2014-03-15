@@ -295,8 +295,10 @@ public class Pricer extends JFrame {
 		}
 	}
 
-	public float[][] volatilityCalculate() {
-		return null;
+	public void volatilityCalculate(){
+		final VolatilityDrawer VD = new VolatilityDrawer();
+		double[][] aaa = {{2,16,4,7}, {6,7,8,23}};
+		VD.displayVolatility(aaa);
 	}
 	
 	public boolean validateInput(){
