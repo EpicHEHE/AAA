@@ -15,8 +15,9 @@ public class ProductAlgorithmManager {
 		algorithmMap = new TreeMap<String, Algorithm>();
 		Algorithm AsianSimulation = new AsianSimulation();
 
-		// algorithmMap.put("AsianSimulation", AsianSimulation);
-		productMap.put("AsianOption", new TreeMap<String, Algorithm>());
+	    algorithmMap.put("AsianSimulation", AsianSimulation);
+//		productMap.put("AsianOption", new TreeMap<String, Algorithm>());
+		productMap.put("AsianOption", algorithmMap);
 	}
 
 	public static synchronized ProductAlgorithmManager getInstance() {

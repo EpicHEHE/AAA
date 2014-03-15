@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.PC-20130302BEIV/Documents/GitHub/OOAD/ExtensivePricer/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.PC-20130302BEIV/Documents/GitHub/OOAD/ExtensivePricer/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator.PC-20130302BEIV/Documents/GitHub/OOAD/ExtensivePricer/jfreechart-1.0.17/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chen/Desktop/jcommon-1.0.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chen/Desktop/jfreechart-1.0.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chen/Desktop/servlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
